@@ -1,11 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your office</title>
-</head>
-<body>
-    Your app works! 😊
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Your office</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body class="bg-[#EDDFD6] min-h-screen">
+        <div x-data="{ active: null }" class="game-container min-h-screen flex items-center justify-center p-12">
+            <!-- Boutons principaux : affichés seulement si aucun contenu actif -->
+            <div x-show="active === null" class="flex flex-wrap justify-center items-center gap-6">
+                <h1>
+                    Welcome to your office
+                </h1>
+                <button 
+                    @click="active = 'dice'; $nextTick(() => window.initializeDice && window.initializeDice())" 
+                    class="w-48 h-48 bg-indigo-500 rounded-lg shadow-md text-white">
+                    Dice
+                </button>
+
+                <button 
+                    @click="active = 'wheel'; $nextTick(() => window.initializeWheel && window.initializeWheel())" 
+                    class="w-48 h-48 bg-indigo-500 rounded-lg shadow-md text-white">
+                    Wheel
+                </button>
+
+                <button 
+                    @click="active = 'gambling'" 
+                    class="w-48 h-48 bg-indigo-500 rounded-lg shadow-md text-white">
+                    Gambling
+                </button>
+            </div>
+
+            <!-- Dice container -->
+            <div x-show="active === 'dice'" class="dice-container w-full max-w-2xl p-4 flex flex-col items-center gap-4">
+                <button 
+                    @click="active = null" 
+                    class="retour px-4 py-2 text-white rounded-md shadow">
+                    Retour
+                </button>
+                <canvas class="w-full h-64"></canvas>
+                <button data-state="wait" class="px-6 py-2 text-white rounded-md">Roll the dice</button>
+            </div>
+
+            <!-- Wheel container -->
+            <div x-show="active === 'wheel'" class="wheel-container w-full max-w-2xl p-4 flex flex-col items-center gap-4">
+                <button @click="active = null" class="retour px-4 py-2 text-white rounded-md shadow ">Retour</button>
+                <canvas class="w-full h-96"></canvas>
+                <button data-state="wait" class="wheel-spin-btn px-6 py-2 text-white rounded-md">Spin</button>
+            </div>
+
+            <!-- Gambling container -->
+            <div x-show="active === 'gambling'" class="gambling-container w-full max-w-2xl p-4 bg-white rounded-md shadow">
+                <button @click="active = null" class="retour px-4 py-2 text-white rounded-md shadow ">Retour</button>
+                <div class="mt-4 flex flex-col gap-4">
+                    <div class="flex items-center gap-4 w-max mx-auto">
+                        <label class="font-semibold">Mise :</label>
+                        <input type="number" min="1" value="10" class="gambling-bet px-3 py-2 border rounded" />
+                    </div>
+
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="gamblig-color-container">
+                            <button class="gambling-color gambling-color-red w-16 h-16 rounded-md border-2 border-red-600 bg-red-500"></button>
+                            <button class="gambling-color gambling-color-black w-16 h-16 rounded-md border-2 border-gray-800 bg-black"></button>
+                        </div>
+                        <div class="ml-4 text-sm text-gray-600">Make your bet</div>
+                    </div>
+
+                    <div>
+                        <button class="be-lucky-btn block mx-auto">Be lucky</button>
+                    </div>
+
+                    <div class="gambling-slider-container overflow-hidden mt-4">
+                        <div class="gambling-slider flex gap-2 items-center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module" src="./app.js"></script>
+    </body>
 </html>

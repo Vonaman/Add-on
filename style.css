@@ -1,0 +1,200 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+
+html{
+    font-size: 16px;
+    overflow-x: hidden;
+}
+
+body {
+	margin: 0;
+	min-block-size: 100svb;
+	display: grid;
+	place-items: center;
+	color: #2D8BAF;
+	background: hsl(210 6% 87%);
+	font-family: system-ui;
+}
+
+h1 {
+	font-family: 'Irish Grover', cursive;
+	font-size: 3.5rem;
+	text-align: center;
+	margin-bottom: 1rem;
+	color: #1d1d1d;
+}
+
+.game-container{
+    width: 100%;
+}
+
+.dice-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 1rem;
+	width: 100%;
+	padding: 1rem;
+}
+
+.dice-container > canvas {
+	/* le canvas prend la taille contrôlée par le CSS du conteneur */
+	display: block;
+	width: 100% !important;
+	max-width: 700px;
+	height: 220px !important;
+	border-radius: 8px;
+	object-fit: contain
+}
+
+.dice-container > button {
+	position: relative;
+	bottom: auto;
+	z-index: 10;
+	margin: 0;
+	display: inline-block;
+}
+
+.retour{
+	position: absolute !important;
+	top: 1rem;
+	left: 1rem;
+}
+
+button {
+	background-color: white;
+    border: 1px solid #2D8BAF;
+    border-radius: 8px;
+    color: #2D8BAF !important;
+    padding: .6rem .75rem !important;
+
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+
+    transition: .3s ease-in-out;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+button:focus {
+	outline-offset: 0.25rem;
+	outline-color: var(--_background, hsl(0 0% 20%));
+}
+
+button[data-state="roll"] {
+	scale: 0.9;
+	--_background: var(--_active);
+}
+
+/* Modal pour la roue gagnante */
+.wheel-modal-backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0);
+	z-index: 99;
+	pointer-events: none;
+	transition: background-color 1s ease-in-out;
+}
+
+.wheel-modal-backdrop.active {
+	background-color: rgba(0, 0, 0, 0.5);
+	pointer-events: all;
+}
+
+.wheel-modal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0.8);
+	opacity: 0;
+	z-index: 100;
+	pointer-events: none;
+	transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.wheel-modal.active {
+	opacity: 1;
+	transform: translate(-50%, -50%) scale(1);
+	pointer-events: all;
+}
+
+.wheel-modal-content {
+	position: relative;
+	background: white;
+	border-radius: 12px;
+	padding: 2rem;
+	box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+	max-width: 600px;
+	width: 90vw;
+	text-align: center;
+	border: 2px solid #2D8BAF;
+}
+
+.wheel-modal-close {
+	position: absolute;
+	top: 1rem;
+	right: 1rem;
+	width: 2rem;
+	height: 2rem;
+	padding: 0;
+	background: transparent;
+	border: none;
+	font-size: 1.5rem;
+	font-weight: 700;
+	color: #2D8BAF;
+	cursor: pointer;
+	transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.wheel-modal-close:hover {
+	color: #E7837F;
+}
+
+.wheel-modal-text {
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: #2D8BAF;
+	line-height: 1.6;
+}
+
+/* Gambling styles */
+.gambling-bet {
+	width: 6rem;
+}
+.gambling-color {
+	cursor: pointer;
+}
+.gambling-color.active {
+	box-shadow: 0 6px 18px rgba(45,139,175,0.25);
+	transform: scale(1.08);
+	border: 3px solid rgba(255,255,255,0.85);
+}
+.gambling-slider-container {
+	width: 100%;
+	height: 72px;
+	position: relative;
+}
+.gambling-slider {
+	display: flex;
+	align-items: center;
+	transition: transform 0.05s linear;
+}
+.gambling-cell {
+	width: 80px;
+	height: 56px;
+	border-radius: 6px;
+}
+.gambling-modal-backdrop.active, .wheel-modal-backdrop.active {
+	transition-duration: 0.2s;
+}
+
