@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Irish+Grover&family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 html{
     font-size: 16px;
     overflow-x: hidden;
+	font-family: "Mulish", sans-serif;
 }
 
 body {
@@ -14,12 +15,12 @@ body {
 	place-items: center;
 	color: #2D8BAF;
 	background: hsl(210 6% 87%);
-	font-family: system-ui;
+	font-family: "Mulish", sans-serif;
 }
 
 h1 {
 	font-family: 'Irish Grover', cursive;
-	font-size: 3.5rem;
+	font-size: 3rem;
 	text-align: center;
 	margin-bottom: 1rem;
 	color: #1d1d1d;
@@ -54,7 +55,6 @@ h1 {
 	bottom: auto;
 	z-index: 10;
 	margin: 0;
-	display: inline-block;
 }
 
 .retour{
@@ -64,7 +64,7 @@ h1 {
 }
 
 button {
-	background-color: white;
+	background-color: #EDDFD6;
     border: 1px solid #2D8BAF;
     border-radius: 8px;
     color: #2D8BAF !important;
@@ -74,6 +74,10 @@ button {
     font-weight: 600 !important;
 
     transition: .3s ease-in-out;
+}
+
+button svg {
+	fill: #2D8BAF;
 }
 
 button:hover {
@@ -170,19 +174,44 @@ button[data-state="roll"] {
 /* Gambling styles */
 .gambling-bet {
 	width: 6rem;
+	border-bottom: 1px solid #2D8BAF;
+	background-color: transparent;
 }
 .gambling-color {
 	cursor: pointer;
 }
 .gambling-color.active {
 	box-shadow: 0 6px 18px rgba(45,139,175,0.25);
-	transform: scale(1.08);
-	border: 3px solid rgba(255,255,255,0.85);
+	transform: scale(1.2);
+	border: 3px solid rgba(255,255,255);
 }
 .gambling-slider-container {
-	width: 100%;
+	width: 256px;
 	height: 72px;
 	position: relative;
+	margin: 0 auto;
+	padding-top: 20px;
+}
+
+/* Flèche pointeur au-dessus du slider */
+.gambling-slider-container::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 0;
+	height: 0;
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-top: 12px solid rgb(45,139,175);
+	z-index: 10;
+	opacity: 0;
+	transition: opacity 0.3s ease-in-out;
+}
+
+.gambling-slider-container.active::before {
+	opacity: 1;
 }
 .gambling-slider {
 	display: flex;
@@ -194,7 +223,67 @@ button[data-state="roll"] {
 	height: 56px;
 	border-radius: 6px;
 }
+
+/* Gambling modal styles */
+.gambling-modal-backdrop {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0);
+	z-index: 99;
+	pointer-events: none;
+	transition: background-color 1s ease-in-out;
+}
+
+.gambling-modal-backdrop.active {
+	background-color: rgba(0, 0, 0, 0.5);
+	pointer-events: all;
+}
+
+.gambling-modal {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0.8);
+	opacity: 0;
+	z-index: 100;
+	pointer-events: none;
+	transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+.gambling-modal.active {
+	opacity: 1;
+	transform: translate(-50%, -50%) scale(1);
+	pointer-events: all;
+}
+
 .gambling-modal-backdrop.active, .wheel-modal-backdrop.active {
 	transition-duration: 0.2s;
+}
+.img-fond{
+	position: fixed;
+	bottom: -5rem;
+	left: 10%;
+	rotate: -30deg;
+	opacity: 0.1;
+	transform: translateX(-50%);
+	width: 100%;
+	max-width: 600px;
+	pointer-events: none;
+	z-index: -1;
+}
+
+.img-fond-horloge{
+	position: fixed;
+	top: 5rem;
+	right: 1rem;
+	rotate: 15deg;
+	opacity: 0.1;
+	width:	10rem;
+	max-width: 600px;
+	pointer-events: none;
+	z-index: -1;
 }
 

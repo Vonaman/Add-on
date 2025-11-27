@@ -67,14 +67,14 @@ function setupWheel(canvas, rect) {
   // Tableau d'id -> phrase (1..8)
   // Personnalisez ces phrases selon vos besoins
   const phrases = {
-    0: "Phrase pour l'id 1",
-    1: "Phrase pour l'id 2",
-    2: "Phrase pour l'id 3",
-    3: "Phrase pour l'id 4",
-    4: "Phrase pour l'id 5",
-    5: "Phrase pour l'id 6",
-    6: "Phrase pour l'id 7",
-    7: "Phrase pour l'id 8",
+    0: "You earn 3 Energy Points !",
+    1: "You lose 5 Energy Points...",
+    2: "Move forward 2 spaces and play there.",
+    3: "You lose 3 Energy Points...",
+    4: "Nothing at all hahaha you loser 😂 ",
+    5: "You earn 5 Energy Points !",
+    6: "Move backward 2 spaces and play there.",
+    7: "Nothing at all hahaha you loser 😂",
   };
 
   // s'assurer de récupérer le container depuis le canvas (au cas où
@@ -208,39 +208,43 @@ function setupWheel(canvas, rect) {
   if (button) {
     button.addEventListener("click", () => {
       if (isSpinning) return;
-
       isSpinning = true;
       button.disabled = true;
       button.textContent = "Spinning...";
-
-      // Spin aléatoire
-      const targetRotation =
-        rotation + Math.random() * Math.PI * 2 + Math.PI * 6;
-      const duration = 5000; // 5 secondes
+      
+      const startRotation = rotation;  // ← Sauvegarder la rotation de départ
+      const rotationAmount = Math.random() * Math.PI * 2 + Math.PI * 8;
+      const targetRotation = startRotation + rotationAmount;  // ← Rotation finale
+      const animationDuration = 5000;
       const startTime = performance.now();
-
-      // easing easeInOutCubic
-      const easeInOutCubic = (t) =>
-        t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
+      
+      const easeInOutCustom = (t) => {
+        if (t < 0.2) {
+          const localT = t / 0.2;
+          return 0.2 * (localT * localT * localT);
+        } else {
+          const localT = (t - 0.2) / 0.8;
+          return 0.2 + 0.8 * (1 - Math.pow(1 - localT, 4));
+        }
+      };
+      
       const animate = (currentTime) => {
         const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        const easeProgress = easeInOutCubic(progress);
-
-        rotation = rotation + (targetRotation - rotation) * easeProgress;
-
+        const progress = Math.min(elapsed / animationDuration, 1);
+        const easeProgress = easeInOutCustom(progress);
+        
+        // ✅ CHANGEMENT ICI : calculer directement depuis le début
+        rotation = startRotation + rotationAmount * easeProgress;
+        
         drawWheel();
-
+        
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
           isSpinning = false;
           button.disabled = false;
           button.textContent = "Spin Again";
-
-          // Calculer le segment gagnant
+          
           const normalizedRotation =
             ((rotation % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
           const winningSegment = Math.floor(
@@ -248,23 +252,19 @@ function setupWheel(canvas, rect) {
               Math.floor((normalizedRotation / (Math.PI * 2)) * segments)) %
               segments
           );
-          // id (1..8) correspondant au segment gagnant
           const winningId = winningSegment % segments;
-          // Chercher la phrase associée à l'id dans le tableau `phrases`
           const winningPhrase = phrases[winningId] || null;
-          // Pour affichage, préférer la phrase si présente, sinon le label segment
           const winningLabel =
             winningPhrase ||
             (labels[winningSegment] !== undefined
               ? labels[winningSegment]
               : String(winningId));
+          
           console.log("Winning segment:", winningSegment, winningLabel);
-
-          // Afficher le résultat dans une modal
           showWinningModal(winningLabel);
         }
       };
-
+      
       requestAnimationFrame(animate);
     });
   }

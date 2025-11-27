@@ -219,6 +219,11 @@ function setupDice() {
 
     const handleClick = () => {
       if (state !== "wait") return;
+
+      // Générer un résultat équitable : 1 chance sur 6 pour chaque face (1-6)
+      const result = Math.floor(Math.random() * 6) + 1;
+
+      // Rotation aléatoire (comme avant) - indépendante du résultat
       const [x, y, z] = Array(3)
         .fill()
         .map((_) => (Math.floor(Math.random() * 4) * TAU) / 4 + TAU * 2);

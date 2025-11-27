@@ -12,34 +12,40 @@
         <div x-data="{ active: null }" class="game-container min-h-screen flex items-center justify-center p-12">
             <!-- Boutons principaux : affichés seulement si aucun contenu actif -->
             <div x-show="active === null" class="flex flex-wrap justify-center items-center gap-6">
-                <h1>
+                <h1 class="w-full text-center text-4xl font-bold mb-8">
                     Welcome to your office
                 </h1>
-                <button 
-                    @click="active = 'dice'; $nextTick(() => window.initializeDice && window.initializeDice())" 
-                    class="w-48 h-48 bg-indigo-500 rounded-lg shadow-md text-white">
+                <div
+                    @click="active = 'dice'; $nextTick(() => window.initializeDice && window.initializeDice())"
+                    class="w-48 h-48 p-8 font-bold flex flex-col justify-center items-center gap-4 rounded-lg shadow-md bg-white text-[#1d1d1d] border-4 border-[#4A90E2]">
+                    <img src="./img/dice-illu.png" alt="Dice illustration" class="w-32 h-32">
                     Dice
-                </button>
+                </div>
 
-                <button 
-                    @click="active = 'wheel'; $nextTick(() => window.initializeWheel && window.initializeWheel())" 
-                    class="w-48 h-48 bg-indigo-500 rounded-lg shadow-md text-white">
+                <div
+                    @click="active = 'wheel'; $nextTick(() => window.initializeWheel && window.initializeWheel())"
+                    class="w-48 h-48 p-8 font-bold flex flex-col justify-center items-center gap-4 rounded-lg shadow-md bg-white text-[#1d1d1d] border-4 border-[#FABA62]">
+                    <img src="./img/wheel.png" alt="Dice illustration" class="w-32 h-32">
                     Wheel
-                </button>
+                </div>
 
-                <button 
-                    @click="active = 'gambling'" 
-                    class="w-48 h-48 bg-indigo-500 rounded-lg shadow-md text-white">
+                <div
+                    @click="active = 'gambling'; $nextTick(() => window.initializeGambling && window.initializeGambling())"
+                    class="w-48 h-48 p-8 font-bold flex flex-col justify-center items-center gap-4 rounded-lg shadow-md bg-white text-[#1d1d1d] border-4 border-[#C6D056]">
+                    <img src="./img/jetons.svg" alt="Dice illustration" class="w-32 h-32">
                     Gambling
-                </button>
+                </div>
             </div>
 
             <!-- Dice container -->
             <div x-show="active === 'dice'" class="dice-container w-full max-w-2xl p-4 flex flex-col items-center gap-4">
                 <button 
                     @click="active = null" 
-                    class="retour px-4 py-2 text-white rounded-md shadow">
-                    Retour
+                    class="retour px-4 py-2 rounded-md shadow flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
+                        <path d="M21 8.36395C21.5523 8.36395 22 7.91624 22 7.36395C22 6.81167 21.5523 6.36395 21 6.36395V7.36395V8.36395ZM0.292893 6.65685C-0.0976311 7.04737 -0.0976311 7.68054 0.292893 8.07106L6.65685 14.435C7.04738 14.8255 7.68054 14.8255 8.07107 14.435C8.46159 14.0445 8.46159 13.4113 8.07107 13.0208L2.41421 7.36395L8.07107 1.7071C8.46159 1.31657 8.46159 0.683409 8.07107 0.292885C7.68054 -0.0976395 7.04738 -0.0976395 6.65685 0.292885L0.292893 6.65685ZM21 7.36395V6.36395L1 6.36395V7.36395V8.36395L21 8.36395V7.36395Z" fill=""/>
+                    </svg>
+                    Back
                 </button>
                 <canvas class="w-full h-64"></canvas>
                 <button data-state="wait" class="px-6 py-2 text-white rounded-md">Roll the dice</button>
@@ -47,26 +53,40 @@
 
             <!-- Wheel container -->
             <div x-show="active === 'wheel'" class="wheel-container w-full max-w-2xl p-4 flex flex-col items-center gap-4">
-                <button @click="active = null" class="retour px-4 py-2 text-white rounded-md shadow ">Retour</button>
+                <button 
+                    @click="active = null" 
+                    class="retour px-4 py-2 rounded-md shadow flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
+                        <path d="M21 8.36395C21.5523 8.36395 22 7.91624 22 7.36395C22 6.81167 21.5523 6.36395 21 6.36395V7.36395V8.36395ZM0.292893 6.65685C-0.0976311 7.04737 -0.0976311 7.68054 0.292893 8.07106L6.65685 14.435C7.04738 14.8255 7.68054 14.8255 8.07107 14.435C8.46159 14.0445 8.46159 13.4113 8.07107 13.0208L2.41421 7.36395L8.07107 1.7071C8.46159 1.31657 8.46159 0.683409 8.07107 0.292885C7.68054 -0.0976395 7.04738 -0.0976395 6.65685 0.292885L0.292893 6.65685ZM21 7.36395V6.36395L1 6.36395V7.36395V8.36395L21 8.36395V7.36395Z" fill=""/>
+                    </svg>
+                    Back
+                </button>
                 <canvas class="w-full h-96"></canvas>
                 <button data-state="wait" class="wheel-spin-btn px-6 py-2 text-white rounded-md">Spin</button>
             </div>
 
             <!-- Gambling container -->
-            <div x-show="active === 'gambling'" class="gambling-container w-full max-w-2xl p-4 bg-white rounded-md shadow">
-                <button @click="active = null" class="retour px-4 py-2 text-white rounded-md shadow ">Retour</button>
+            <div x-show="active === 'gambling'" class="gambling-container w-full max-w-2xl p-4" @show="$nextTick(() => window.initializeGambling && window.initializeGambling())">
+                <button 
+                    @click="active = null" 
+                    class="retour px-4 py-2 rounded-md shadow flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
+                        <path d="M21 8.36395C21.5523 8.36395 22 7.91624 22 7.36395C22 6.81167 21.5523 6.36395 21 6.36395V7.36395V8.36395ZM0.292893 6.65685C-0.0976311 7.04737 -0.0976311 7.68054 0.292893 8.07106L6.65685 14.435C7.04738 14.8255 7.68054 14.8255 8.07107 14.435C8.46159 14.0445 8.46159 13.4113 8.07107 13.0208L2.41421 7.36395L8.07107 1.7071C8.46159 1.31657 8.46159 0.683409 8.07107 0.292885C7.68054 -0.0976395 7.04738 -0.0976395 6.65685 0.292885L0.292893 6.65685ZM21 7.36395V6.36395L1 6.36395V7.36395V8.36395L21 8.36395V7.36395Z" fill=""/>
+                    </svg>
+                    Back
+                </button>
                 <div class="mt-4 flex flex-col gap-4">
                     <div class="flex items-center gap-4 w-max mx-auto">
-                        <label class="font-semibold">Mise :</label>
-                        <input type="number" min="1" value="10" class="gambling-bet px-3 py-2 border rounded" />
+                        <label class="font-semibold">Bet:</label>
+                        <input type="number" min="5" value="5" class="gambling-bet px-3 py-2" />
                     </div>
 
                     <div class="flex flex-col items-center gap-3">
-                        <div class="gamblig-color-container">
+                        <div class="gamblig-color-container flex gap-4">
                             <button class="gambling-color gambling-color-red w-16 h-16 rounded-md border-2 border-red-600 bg-red-500"></button>
                             <button class="gambling-color gambling-color-black w-16 h-16 rounded-md border-2 border-gray-800 bg-black"></button>
                         </div>
-                        <div class="ml-4 text-sm text-gray-600">Make your bet</div>
+                        <div class="text-sm text-gray-600">Choose a color</div>
                     </div>
 
                     <div>
@@ -79,6 +99,9 @@
                 </div>
             </div>
         </div>
+
+        <img class="img-fond" src="./img/picto-fond.svg" alt="Fond décoratif">
+        <img class="img-fond-horloge" src="./img/horloge.svg" alt="Fond décoratif 2">
 
         <script type="module" src="./app.js"></script>
     </body>
